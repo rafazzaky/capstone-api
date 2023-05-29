@@ -5,13 +5,8 @@ exports.up = (pgm) => {
       primaryKey: true,
     },
     user_id: {
-      type: 'INTEGER',
+      type: 'VARCHAR(50)',
       notNull: true,
-      references: {
-        table: 'users',
-        column: 'id',
-      },
-      onDelete: 'CASCADE',
     },
     categories: {
       type: 'TEXT',
@@ -27,6 +22,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
   });
+  pgm.addConstraint('history', 'fk_history.user_id_users.id', 'FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 exports.down = (pgm) => {

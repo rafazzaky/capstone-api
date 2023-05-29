@@ -15,6 +15,7 @@ class StorageClass {
     const fileUpload = this.bucket.file(fileName);
 
     await new Promise((resolve, reject) => {
+      console.log(file);
       file.pipe(fs.createWriteStream(file.hapi.path))
         .on('finish', () => {
           fileUpload.save(fs.createReadStream(file.hapi.path))

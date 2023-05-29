@@ -15,7 +15,7 @@ class PredictHandler {
   async uploadToGCS(req, h) {
     const { file } = req.payload;
     this._validator.validateImageHeaders(file.hapi.headers);
-    const fileUrl = await this._storageService.uploadImageToGCS(file);
+    const fileUrl = await this._storageService.writeFile(file);
 
     return h.response({
       status: 'success',

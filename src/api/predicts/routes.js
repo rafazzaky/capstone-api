@@ -5,6 +5,12 @@ const routes = (handler) => [
     handler: handler.postPredictTomatoHandler,
     options: {
       auth: 'capstone_jwt',
+      payload: {
+        output: 'stream',
+        allow: 'multipart/form-data',
+        multipart: true,
+        maxBytes: 10 * 1024 * 1024,
+      },
     },
   },
   {
@@ -13,6 +19,12 @@ const routes = (handler) => [
     handler: handler.postPredictPaprikaHandler,
     options: {
       auth: 'capstone_jwt',
+      payload: {
+        output: 'stream',
+        allow: 'multipart/form-data',
+        multipart: true,
+        maxBytes: 10 * 1024 * 1024,
+      },
     },
   },
   {
@@ -21,6 +33,12 @@ const routes = (handler) => [
     handler: handler.postPredictPotatoHandler,
     options: {
       auth: 'capstone_jwt',
+      payload: {
+        output: 'stream',
+        allow: 'multipart/form-data',
+        multipart: true,
+        maxBytes: 10 * 1024 * 1024,
+      },
     },
   },
   {
@@ -30,7 +48,6 @@ const routes = (handler) => [
     options: {
       payload: {
         output: 'stream',
-        parse: true,
         allow: 'multipart/form-data',
         multipart: true,
         maxBytes: 10 * 1024 * 1024,

@@ -1,36 +1,43 @@
-const fs = require('fs');
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-underscore-dangle */
 const { Storage } = require('@google-cloud/storage');
+const { v4: uuidv4 } = require('uuid');
 
 class StorageClass {
   constructor() {
     this.storage = new Storage({
       projectId: process.env.GCS_PROJECT_ID,
       keyFilename: process.env.GCS_KEYFILE_PATH,
-      bucket: process.env.GCS_BUCKET_NAME,
+      bucketName: process.env.GCS_BUCKET_NAME, // Change 'bucket' to 'bucketName'
     });
     this.bucket = this.storage.bucket(process.env.GCS_BUCKET_NAME);
   }
 
   async writeFile(file) {
-    const fileName = `${Date.now()}_${file.hapi.filename}`;
+    const uniqueId = uuidv4(); // Generate a random unique string
+    const fileName = `${Date.now()}_${uniqueId}`;
     const fileUpload = this.bucket.file(fileName);
+    let fileUrl;
+    try {
+      await new Promise((resolve, reject) => {
+        const bufferData = file._data;
 
-    await new Promise((resolve, reject) => {
-      console.log(file);
-      file.pipe(fs.createWriteStream(file.hapi.path))
-        .on('finish', () => {
-          fileUpload.save(fs.createReadStream(file.hapi.path))
-            .then(() => {
-              fileUpload.makePublic()
-                .then(() => resolve())
-                .catch((error) => reject(error));
-            })
-            .catch((error) => reject(error));
-        })
-        .on('error', (error) => reject(error));
-    });
+        fileUpload.save(bufferData)
+          .then(() => {
+            fileUpload.makePublic()
+              .then(() => {
+                fileUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${fileName}`;
+                resolve();
+              })
+              .catch((error) => reject(error));
+          })
+          .catch((error) => reject(error));
+      });
+    } catch (error) {
+      console.log(error.message);
+      throw new Error(error.message);
+    }
 
-    const fileUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${fileName}`;
     return fileUrl;
   }
 }

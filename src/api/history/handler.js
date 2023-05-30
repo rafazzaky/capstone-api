@@ -3,9 +3,8 @@
 const autoBind = require('auto-bind');
 
 class HistoryHandler {
-  constructor(service, validator) {
+  constructor(service) {
     this._service = service;
-    this._validator = validator;
 
     autoBind(this);
   }

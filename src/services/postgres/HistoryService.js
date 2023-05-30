@@ -39,7 +39,7 @@ class HistoryService {
     const historyId = await this._pool.query(query);
 
     if (!historyId.rows[0].id) {
-      throw new InvariantError('Catatan gagal ditambahkan');
+      throw new InvariantError('History gagal ditambahkan');
     }
 
     return historyId.rows[0].id;

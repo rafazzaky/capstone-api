@@ -7,12 +7,11 @@ module.exports = {
   register: async (
     server,
     {
-      service, validator,
+      service,
     },
   ) => {
     const historyHandler = new HistoryHandler(
       service,
-      validator,
     );
     server.route(routes(historyHandler));
   },

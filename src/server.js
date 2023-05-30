@@ -19,8 +19,11 @@ const predicts = require('./api/predicts');
 const PredictsService = require('./services/postgres/PredictsService');
 const UploadsValidator = require('./validator/uploads');
 
-const StorageService = require('./services/storage/StorageService');
+// History
+const history = require('./api/history');
 const HistoryService = require('./services/postgres/HistoryService');
+
+const StorageService = require('./services/storage/StorageService');
 
 const ClientError = require('./exceptions/ClientError');
 
@@ -118,6 +121,12 @@ const init = async () => {
         storageService,
         historyService,
         validator: UploadsValidator,
+      },
+    },
+    {
+      plugin: history,
+      options: {
+        service: historyService,
       },
     },
   ]);

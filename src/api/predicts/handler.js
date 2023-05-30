@@ -27,12 +27,12 @@ class PredictHandler {
 
   async postPredictTomatoHandler(req, h) {
     const category = 'Tomato';
-    const { data } = req.payload;
-    this._validator.validateImageHeaders(data.hapi.headers);
+    const { file } = req.payload;
+    this._validator.validateImageHeaders(file.hapi.headers);
     const { id: credentialId } = req.auth.credentials;
 
-    const result = await this._predictzService.predictTomato(data);
-    const imageUrl = await this._storageService.writeFile(data, data.hapi);
+    const result = await this._predictzService.predictTomato(file);
+    const imageUrl = await this._storageService.writeFile(file);
     const historyId = await this._histroryService.addHistory({
       credentialId, category, result, imageUrl,
     });
@@ -52,12 +52,12 @@ class PredictHandler {
 
   async postPredictPaprikaHandler(req, h) {
     const category = 'Paprika';
-    const { data } = req.payload;
-    this._validator.validateImageHeaders(data.hapi.headers);
+    const { file } = req.payload;
+    this._validator.validateImageHeaders(file.hapi.headers);
     const { id: credentialId } = req.auth.credentials;
 
-    const result = await this._predictService.predictPaprika(data);
-    const imageUrl = await this._storageService.writeFile(data, data.hapi);
+    const result = await this._predictService.predictPaprika(file);
+    const imageUrl = await this._storageService.writeFile(file);
     const historyId = await this._histroryService.addHistory({
       credentialId, category, result, imageUrl,
     });
@@ -77,12 +77,12 @@ class PredictHandler {
 
   async postPredictPotatoHandler(req, h) {
     const category = 'Potato';
-    const { data } = req.payload;
-    this._validator.validateImageHeaders(data.hapi.headers);
+    const { file } = req.payload;
+    this._validator.validateImageHeaders(file.hapi.headers);
     const { id: credentialId } = req.auth.credentials;
 
-    const result = await this._predictService.predictPotato(data);
-    const imageUrl = await this._storageService.writeFile(data, data.hapi);
+    const result = await this._predictService.predictPotato(file);
+    const imageUrl = await this._storageService.writeFile(file);
     const historyId = await this._histroryService.addHistory({
       credentialId, category, result, imageUrl,
     });

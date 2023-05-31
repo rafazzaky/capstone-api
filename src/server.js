@@ -15,8 +15,8 @@ const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
 
 // Predict
-const predicts = require('./api/predicts');
-const PredictsService = require('./services/postgres/PredictsService');
+const predict = require('./api/predict');
+const PredictService = require('./services/postgres/PredictService');
 const UploadsValidator = require('./validator/uploads');
 
 // History
@@ -32,7 +32,7 @@ const init = async () => {
   const authenticationsService = new AuthenticationsService();
 
   // predicts
-  const predictsService = new PredictsService();
+  const predictService = new PredictService();
   const storageService = new StorageService();
   const historyService = new HistoryService();
 
@@ -115,9 +115,9 @@ const init = async () => {
       },
     },
     {
-      plugin: predicts,
+      plugin: predict,
       options: {
-        predictsService,
+        predictService,
         storageService,
         historyService,
         validator: UploadsValidator,

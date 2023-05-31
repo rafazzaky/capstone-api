@@ -28,7 +28,7 @@ class HistoryService {
   async addHistory({
     owner, category, result, image,
   }) {
-    const id = `${owner}-${nanoid(16)}`;
+    const id = `history-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
 
     const query = {

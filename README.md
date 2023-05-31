@@ -105,7 +105,7 @@ on progress
 
 - Method: `GET`
 - Path: `/history`
-- Deskripsi: Mendapatkan riwayat aktivitas pengguna berdasarkan ID pengguna yang diberikan.
+- Deskripsi: Mendapatkan riwayat aktivitas pengguna.
 - Menerima Data:
 	- id: Diperoleh dari `Bearer Token` yang diberikan saat request
   
@@ -142,7 +142,7 @@ on progress
 
 - Method: `GET`
 - Path: `/history/{id}`
-- Deskripsi: Mendapatkan detail dari riwayat aktivitas berdasarkan ID historyyang diberikan.
+- Deskripsi: Mendapatkan detail dari riwayat aktivitas berdasarkan ID history yang diberikan.
 - Menerima Data:
 	- Id: Diperoleh dari `Bearer Token` yang diberikan saat request
   

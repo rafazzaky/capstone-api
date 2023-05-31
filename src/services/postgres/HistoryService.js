@@ -10,9 +10,9 @@ class HistoryService {
     this._pool = new Pool();
   }
 
-  async verifyHistroyOwner(id, owner) {
+  async verifyHistoryOwner(id, owner) {
     const query = {
-      text: 'SELECT * FROM history WHERE id = $1',
+      text: 'SELECT user_id FROM history WHERE id = $1',
       values: [id],
     };
     const result = await this._pool.query(query);
@@ -20,7 +20,7 @@ class HistoryService {
       throw new NotFoundError('History tidak ditemukan');
     }
     const history = result.rows[0];
-    if (history.owner !== owner) {
+    if (history.user_id !== owner) {
       throw new AuthorizationError('Anda tidak berhak mengakses history ini');
     }
   }
@@ -47,7 +47,7 @@ class HistoryService {
 
   async getHistory(owner) {
     const query = {
-      text: 'SELECT categories, image_url, created_at FROM history WHERE user_id = $1',
+      text: 'SELECT id, categories, image_url, created_at FROM history WHERE user_id = $1',
       values: [owner],
     };
 
@@ -57,7 +57,7 @@ class HistoryService {
       throw new NotFoundError('User tidak memiliki history');
     }
 
-    return data;
+    return data.rows;
   }
 
   async getHistoryById(id) {
@@ -66,13 +66,13 @@ class HistoryService {
       values: [id],
     };
 
-    const data = await this.pool.query(query);
+    const data = await this._pool.query(query);
 
     if (!data.rows[0]) {
       throw new NotFoundError('History tidak ditemukan');
     }
 
-    return data;
+    return data.rows[0];
   }
 }
 

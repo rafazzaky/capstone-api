@@ -8,7 +8,7 @@ class StorageClass {
     this.storage = new Storage({
       projectId: process.env.GCS_PROJECT_ID,
       keyFilename: process.env.GCS_KEYFILE_PATH,
-      bucketName: process.env.GCS_BUCKET_NAME, // Change 'bucket' to 'bucketName'
+      bucketName: process.env.GCS_BUCKET_NAME,
     });
     this.bucket = this.storage.bucket(process.env.GCS_BUCKET_NAME);
   }

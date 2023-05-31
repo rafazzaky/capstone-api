@@ -95,3 +95,70 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
     "message": "Refresh token berhasil dihapus"
   }
   ```
+
+## Predicts
+on progress
+
+## History
+
+### Mendapatkan History User
+
+- Method: `GET`
+- Path: `/history`
+- Deskripsi: Mendapatkan riwayat aktivitas pengguna berdasarkan ID pengguna yang diberikan.
+- Menerima Data:
+	- id: Diperoleh dari `Bearer Token` yang diberikan saat request
+  
+- Mengembalikan Data:
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "history": [
+            {
+                "id": "id-1",
+                "categories": "Tomato",
+                "image_url": "image1.jpg",
+                "created_at": "2023-01-01"
+            },
+            {
+                "id": "id-2",
+                "categories": "Paprika",
+                "image_url": "image2.jpg",
+                "created_at": "2023-01-02"
+            },
+            {
+                "id": "id-3",
+                "categories": "Potato",
+                "image_url": "image3.jpg",
+                "created_at": "2023-01-03"
+            }
+        ]
+    }
+  }
+  ```
+
+### Mendapatkan Detail History
+
+- Method: `GET`
+- Path: `/history/{id}`
+- Deskripsi: Mendapatkan detail dari riwayat aktivitas berdasarkan ID historyyang diberikan.
+- Menerima Data:
+	- Id: Diperoleh dari `Bearer Token` yang diberikan saat request
+  
+- Mengembalikan Data:
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "history": {
+        "id": "<historyId>",
+        "user_id": "<userId>",
+        "categories": "<historyCategory>",
+        "image_url": "<imageUrl>",
+        "data": {"result": "<predictionResult>"},
+        "created_at": "<createdAt>"
+      }
+    }
+  }
+  ```

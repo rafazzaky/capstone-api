@@ -16,7 +16,7 @@ const AuthenticationsValidator = require('./validator/authentications');
 
 // Predict
 const predict = require('./api/predict');
-const PredictService = require('./services/postgres/PredictService');
+const PredictService = require('./services/predict/PredictService');
 const UploadsValidator = require('./validator/uploads');
 
 // History

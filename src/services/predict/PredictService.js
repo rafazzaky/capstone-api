@@ -1,8 +1,10 @@
+/* eslint-disable quotes */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
-const { createCanvas, loadImage } = require('canvas');
 const tf = require('@tensorflow/tfjs-node');
+const path = require('path');
+const sharp = require('sharp');
 
 class PredictService {
   // eslint-disable-next-line no-unused-vars
@@ -15,47 +17,129 @@ class PredictService {
     return result;
   }
 
-  async preprocessImage(imageBuffer) {
-    // Buat canvas menggunakan library 'canvas'
-    const canvas = createCanvas(224, 224);
-    const ctx = canvas.getContext('2d');
+  async preprocessImagePaprika(imageBuffer) {
+  // Resize the image to the desired dimensions
+    const resizedImageBuffer = await sharp(imageBuffer).resize(256, 256).toBuffer();
 
-    // Muat gambar ke dalam canvas
-    const img = await loadImage(imageBuffer);
-    ctx.drawImage(img, 0, 0, 224, 224);
+    // Convert the image buffer to a tensor
+    const imageTensor = tf.node.decodeImage(resizedImageBuffer, 3);
 
-    // Ambil data piksel dari canvas dan kembalikan sebagai array
-    const imageData = ctx.getImageData(0, 0, 224, 224).data;
-    return Array.from(imageData);
+    // Normalize the pixel values to the range [0, 1]
+    const normalizedTensor = imageTensor.div(255.0);
+
+    // Expand dimensions to match the model's expected input shape
+    const reshapedTensor = normalizedTensor.expandDims();
+
+    return reshapedTensor;
   }
 
-  async predict(image, category) {
+  async predictPaprika(image) {
     try {
       // Membaca data gambar dari request
       const imageBuffer = image._data;
-
-      // Determine the model file based on the category
-      // Potato.json, Tomato.json, Paprika.json
-      const modelFile = `${category}.json`;
+      const modelFile = path.resolve(__dirname, '../../model/Paprika', `model.json`);
 
       // Load model
-      const model = await tf.loadLayersModel(modelFile);
+      const model = await tf.loadLayersModel(`file://${modelFile}`);
 
       // Preprocess foto
-      const preprocessedImage = await this.preprocessImage(imageBuffer);
+      const preprocessedImage = await this.preprocessImagePaprika(imageBuffer);
 
-      // Ubah foto menjadi tensor
-      const tensor = tf.tensor(preprocessedImage);
+      // Predict using the model
+      const predictions = model.predict(preprocessedImage);
 
-      // Prediksi menggunakan model
-      const predictions = model.predict(tensor);
-
-      // Dapatkan hasil prediksi
-      const predictionResult = predictions.arraySync();
-
-      console.log(predictionResult);
+      // Convert predictions to a JavaScript array
+      const predictionResult = await predictions.array();
       // Mengembalikan hasil prediksi
-      return { result: predictionResult };
+      console.log(predictions);
+      console.log(predictionResult);
+      return { result: { accuracy: predictionResult[0][0] } };
+    } catch (error) {
+      console.error(error);
+      throw new Error('Something went wrong');
+    }
+  }
+
+  async preprocessImageTomato(imageBuffer) {
+    // Resize the image to the desired dimensions
+    const resizedImageBuffer = await sharp(imageBuffer).resize(224, 224).toBuffer();
+
+    // Convert the image buffer to a tensor
+    const imageTensor = tf.node.decodeImage(resizedImageBuffer, 3);
+
+    // Normalize the pixel values to the range [0, 1]
+    const normalizedTensor = imageTensor.div(255.0);
+
+    // Expand dimensions to match the model's expected input shape
+    const reshapedTensor = normalizedTensor.expandDims(0); // Add batch dimension
+
+    return reshapedTensor;
+  }
+
+  async predictTomato(image) {
+    try {
+      // Read image data from request
+      const imageBuffer = image._data;
+      const modelFile = path.resolve(__dirname, '../../model/Tomato', `model.json`);
+
+      // Load model
+      const model = await tf.loadLayersModel(`file://${modelFile}`);
+
+      // Preprocess photo
+      const preprocessedImage = await this.preprocessImageTomato(imageBuffer);
+
+      // Predict using the model
+      const predictions = model.predict(preprocessedImage);
+
+      // Convert predictions to a JavaScript array
+      const predictionResult = await predictions.array();
+      console.log(predictions);
+      console.log(predictionResult);
+      // Return the prediction result
+      return { result: { accuracy: predictionResult[0][0] } };
+    } catch (error) {
+      console.error(error);
+      throw new Error('Something went wrong');
+    }
+  }
+
+  async preprocessImagePotato(imageBuffer) {
+    // Resize the image to the desired dimensions
+    const resizedImageBuffer = await sharp(imageBuffer).resize(256, 256).toBuffer();
+
+    // Convert the image buffer to a tensor
+    const imageTensor = tf.node.decodeImage(resizedImageBuffer, 3);
+
+    // Normalize the pixel values to the range [0, 1]
+    const normalizedTensor = imageTensor.div(255.0);
+
+    // Expand dimensions to match the model's expected input shape
+    const reshapedTensor = normalizedTensor.expandDims(0); // Add batch dimension
+
+    return reshapedTensor;
+  }
+
+  async predictPotato(image) {
+    try {
+      // Read image data from request
+      const imageBuffer = image._data;
+      const modelFile = path.resolve(__dirname, '../../model/Potato', `model.json`);
+
+      // Load model
+      const model = await tf.loadLayersModel(`file://${modelFile}`);
+
+      // Preprocess photo
+      const preprocessedImage = await this.preprocessImagePotato(imageBuffer);
+
+      // Predict using the model
+      const predictions = model.predict(preprocessedImage);
+
+      // Convert predictions to a JavaScript array
+      const predictionResult = await predictions.array();
+      console.log(predictions);
+      console.log(predictionResult);
+      // Return the prediction result
+      return { result: { accuracy: predictionResult[0][0] } };
     } catch (error) {
       console.error(error);
       throw new Error('Something went wrong');

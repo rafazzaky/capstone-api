@@ -25,11 +25,39 @@ class PredictHandler {
     }).code(201);
   }
 
-  async postPredictHandler(req, h) {
-    const { file, category } = req.payload;
+  async postPredictPaprikaHandler(req, h) {
+    const { file } = req.payload;
+    const category = 'Paprika';
     this._validator.validateImageHeaders(file.hapi.headers);
     const { id: credentialId } = req.auth.credentials;
-    const result = await this._predictService.predictImage(file, category);
+    const result = await this._predictService.predictPaprika(file, category);
+    // const imageUrl = await this._storageService.writeFile(file);
+    const imageUrl = 'https://storage.googleapis.com/c23-pr584-bucket/1685440400871_638fb594-be2c-4221-b081-496a77d08df9';
+    // const historyId = await this._historyService.addHistory({
+    //   owner: credentialId, category, result, image: imageUrl,
+    // });
+    const historyId = 'test-history';
+
+    const response = h.response({
+      status: 'success',
+      message: 'Gambar Berhasil Diprediksi',
+      data: {
+        historyId,
+        category: 'Paprika',
+        imageUrl,
+        result,
+      },
+    });
+    response.code(201);
+    return response;
+  }
+
+  async postPredictPotatoHandler(req, h) {
+    const { file } = req.payload;
+    const category = 'Potato';
+    this._validator.validateImageHeaders(file.hapi.headers);
+    const { id: credentialId } = req.auth.credentials;
+    const result = await this._predictService.predictPotato(file, category);
     // const imageUrl = await this._storageService.writeFile(file);
     const imageUrl = 'https://storage.googleapis.com/c23-pr584-bucket/1685440400871_638fb594-be2c-4221-b081-496a77d08df9';
     const historyId = await this._historyService.addHistory({
@@ -41,6 +69,33 @@ class PredictHandler {
       message: 'Gambar Berhasil Diprediksi',
       data: {
         historyId,
+        category: 'Potato',
+        imageUrl,
+        result,
+      },
+    });
+    response.code(201);
+    return response;
+  }
+
+  async postPredictTomatoHandler(req, h) {
+    const { file } = req.payload;
+    const category = 'Tomato';
+    this._validator.validateImageHeaders(file.hapi.headers);
+    const { id: credentialId } = req.auth.credentials;
+    const result = await this._predictService.predictTomato(file, category);
+    // const imageUrl = await this._storageService.writeFile(file);
+    const imageUrl = 'https://storage.googleapis.com/c23-pr584-bucket/1685440400871_638fb594-be2c-4221-b081-496a77d08df9';
+    const historyId = await this._historyService.addHistory({
+      owner: credentialId, category, result, image: imageUrl,
+    });
+
+    const response = h.response({
+      status: 'success',
+      message: 'Gambar Berhasil Diprediksi',
+      data: {
+        historyId,
+        category: 'Tomato',
         imageUrl,
         result,
       },

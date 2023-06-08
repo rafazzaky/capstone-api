@@ -101,12 +101,11 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
 ### Memprediksi Foto yang Diberikan oleh User
 
 - Method: `POST`
-- Path: `/predict`
-- Deskripsi: Memprediksi foto yang diberikan oleh pengguna dengan model machine learning.
+- Path: `/predictpaprika`
+- Deskripsi: Memprediksi foto tumbuhan paprika yang diberikan oleh pengguna dengan model machine learning.
 - Menerima Data:
 	- `id`: Diperoleh dari `Bearer Token` yang diberikan saat request
 	- `file`: Foto yang akan diprediksi oleh model machine learning
-	- `category`: Kategori model machine learning yang akan digunakan untuk memprediksi foto yang diberikan. Sejauh ini baru terdapat tiga kategori, yaitu: `Tomato`, `Paprika`, dan `Potato`
   
 - Mengembalikan Data:
   ```json
@@ -119,7 +118,7 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
         "result": {
             "category": "<category>",
             "prediction": "<predictionResult>",
-            "confidence": 0.85
+            "confidence": "<modelAccuracy>"
         }
     }
   }

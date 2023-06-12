@@ -1,6 +1,9 @@
 # C23-PR584 API
 Dokumentasi API yang digunakan pada Capstone Project C23-PR584
 
+## How to Run Application
+`npm install`
+`npm run start-prod`
 
 ## Users
 

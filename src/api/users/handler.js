@@ -9,6 +9,20 @@ class UserHandler {
     autoBind(this);
   }
 
+  async getUserByIdHandler(req, h) {
+    const { id } = req.params;
+
+    const user = await this._service.getUserById(id);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        user,
+      },
+    });
+    return response;
+  }
+
   async postUserHandler(req, h) {
     this._validator.validateUserPayload(req.payload);
     const {

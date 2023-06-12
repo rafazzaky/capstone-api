@@ -13,9 +13,9 @@ class StorageClass {
     this.bucket = this.storage.bucket(process.env.GCS_BUCKET_NAME);
   }
 
-  async writeFile(file) {
+  async writeFile(file, category) {
     const uniqueId = uuidv4(); // Generate a random unique string
-    const fileName = `${Date.now()}_${uniqueId}`;
+    const fileName = `${category}/${Date.now()}_${uniqueId}`;
     const fileUpload = this.bucket.file(fileName);
     let fileUrl;
     try {

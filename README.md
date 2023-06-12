@@ -31,6 +31,24 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
     }
   }
   ```
+### Mendapatkan Detail User
+
+- Method: `GET`
+- Path: `/users/{id}`
+- Deskripsi: Mendapatkan detail dari user berdasarkan ID user yang diberikan.
+- Mengembalikan Data:
+  ```json
+  {
+    "status": "success",
+    "data": {
+        "user": {
+            "id": "<userId>",
+            "username": "<username>",
+            "fullname": "<fullname>"
+        }
+    }
+  }
+  ```
 
 ## Authentications
 
@@ -101,10 +119,10 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
 
 ## Predicts
 
-### Memprediksi Foto yang Diberikan oleh User
+### Memprediksi Foto Paprika yang Diberikan oleh User
 
 - Method: `POST`
-- Path: `/predictpaprika`
+- Path: `/predictpotato`
 - Deskripsi: Memprediksi foto tumbuhan paprika yang diberikan oleh pengguna dengan model machine learning.
 - Menerima Data:
 	- `id`: Diperoleh dari `Bearer Token` yang diberikan saat request
@@ -117,11 +135,59 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
     "message": "Gambar Berhasil Diprediksi",
     "data": {
         "historyId": "<historyId>",
+        "category": "Paprika",
         "imageUrl": "<imageUrl>",
         "result": {
-            "category": "<category>",
-            "prediction": "<predictionResult>",
-            "confidence": "<modelAccuracy>"
+            "labels": "<labels>"
+        }
+    }
+  }
+  ```
+### Memprediksi Foto Kentang yang Diberikan oleh User
+
+- Method: `POST`
+- Path: `/predictpotato`
+- Deskripsi: Memprediksi foto tumbuhan kentang yang diberikan oleh pengguna dengan model machine learning.
+- Menerima Data:
+	- `id`: Diperoleh dari `Bearer Token` yang diberikan saat request
+	- `file`: Foto yang akan diprediksi oleh model machine learning
+  
+- Mengembalikan Data:
+  ```json
+  {
+    "status": "success",
+    "message": "Gambar Berhasil Diprediksi",
+    "data": {
+        "historyId": "<historyId>",
+        "category": "Kentang",
+        "imageUrl": "<imageUrl>",
+        "result": {
+            "labels": "<labels>"
+        }
+    }
+  }
+  ```
+
+### Memprediksi Foto Tomat yang Diberikan oleh User
+
+- Method: `POST`
+- Path: `/predicttomato`
+- Deskripsi: Memprediksi foto tumbuhan tomat yang diberikan oleh pengguna dengan model machine learning.
+- Menerima Data:
+	- `id`: Diperoleh dari `Bearer Token` yang diberikan saat request
+	- `file`: Foto yang akan diprediksi oleh model machine learning
+  
+- Mengembalikan Data:
+  ```json
+  {
+    "status": "success",
+    "message": "Gambar Berhasil Diprediksi",
+    "data": {
+        "historyId": "<historyId>",
+        "category": "Tomato",
+        "imageUrl": "<imageUrl>",
+        "result": {
+            "labels": "<labels>"
         }
     }
   }
@@ -172,7 +238,7 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
 - Path: `/history/{id}`
 - Deskripsi: Mendapatkan detail dari riwayat aktivitas berdasarkan ID history yang diberikan.
 - Menerima Data:
-	- Id: Diperoleh dari `Bearer Token` yang diberikan saat request
+	- user_id: Diperoleh dari `Bearer Token` yang diberikan saat request
   
 - Mengembalikan Data:
   ```json

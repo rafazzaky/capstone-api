@@ -19,20 +19,9 @@ class StorageClass {
     const fileUpload = this.bucket.file(fileName);
     let fileUrl;
     try {
-      await new Promise((resolve, reject) => {
-        const bufferData = file._data;
-
-        fileUpload.save(bufferData)
-          .then(() => {
-            fileUpload.makePublic()
-              .then(() => {
-                fileUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${fileName}`;
-                resolve();
-              })
-              .catch((error) => reject(error));
-          })
-          .catch((error) => reject(error));
-      });
+      const bufferData = file._data;
+      await fileUpload.save(bufferData);
+      fileUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${fileName}`;
     } catch (error) {
       console.log(error.message);
       throw new Error(error.message);

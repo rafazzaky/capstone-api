@@ -6,6 +6,7 @@ const tf = require('@tensorflow/tfjs-node');
 const path = require('path');
 const sharp = require('sharp');
 
+const treshold = 0.85;
 class PredictService {
   async preprocessImagePaprika(imageBuffer) {
   // Resize the image to the desired dimensions
@@ -40,11 +41,23 @@ class PredictService {
 
       // Convert predictions to a JavaScript array
       const predictionResult = await predictions.array();
+      const accuracy = Math.max(...predictionResult[0]);
+      if (accuracy < treshold) {
+        return {
+          isDetected: false,
+          labels: null,
+          accuracy,
+        };
+      }
       const maxIndex = predictionResult[0].indexOf(Math.max(...predictionResult[0]));
       // labels
       const labels = ['bactery', 'healthy'];
       // Mengembalikan hasil prediksi
-      return { labels: labels[maxIndex] };
+      return {
+        isDetected: true,
+        labels: labels[maxIndex],
+        accuracy,
+      };
     } catch (error) {
       // console.error(error);
       throw new Error('Something went wrong');
@@ -84,6 +97,14 @@ class PredictService {
 
       // Convert predictions to a JavaScript array
       const predictionResult = await predictions.array();
+      const accuracy = Math.max(...predictionResult[0]);
+      if (accuracy < treshold) {
+        return {
+          isDetected: false,
+          labels: null,
+          accuracy,
+        };
+      }
       // Find the index with the highest probability
       const maxIndex = predictionResult[0].indexOf(Math.max(...predictionResult[0]));
       // Labels
@@ -98,7 +119,11 @@ class PredictService {
         'Tomato__Tomato_mosaic_virus',
         'Tomato_healthy'];
       // Return the prediction result
-      return { labels: labels[maxIndex] };
+      return {
+        isDetected: true,
+        labels: labels[maxIndex],
+        accuracy,
+      };
     } catch (error) {
       // console.error(error);
       throw new Error('Something went wrong');
@@ -138,11 +163,23 @@ class PredictService {
 
       // Convert predictions to a JavaScript array
       const predictionResult = await predictions.array();
+      const accuracy = Math.max(...predictionResult[0]);
+      if (accuracy < treshold) {
+        return {
+          isDetected: false,
+          labels: null,
+          accuracy,
+        };
+      }
       const maxIndex = predictionResult[0].indexOf(Math.max(...predictionResult[0]));
       // Get the predicted class index (assuming single class prediction)
       const labels = ['Potato___Early_blight', 'Potato___Late_blight', 'Potato___healthy'];
       // Return the prediction result
-      return { labels: labels[maxIndex] };
+      return {
+        isDetected: true,
+        labels: labels[maxIndex],
+        accuracy,
+      };
     } catch (error) {
       // console.error(error);
       throw new Error('Something went wrong');

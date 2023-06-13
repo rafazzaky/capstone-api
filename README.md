@@ -138,7 +138,9 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
         "category": "Paprika",
         "imageUrl": "<imageUrl>",
         "result": {
-            "labels": "<labels>"
+            "isDetected": "true/false",
+            "labels": "<labels>",
+            "accuracy": "<accuracy>",
         }
     }
   }
@@ -162,7 +164,9 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
         "category": "Kentang",
         "imageUrl": "<imageUrl>",
         "result": {
-            "labels": "<labels>"
+            "isDetected": "true/false",
+            "labels": "<labels>",
+            "accuracy": "<accuracy>",
         }
     }
   }
@@ -187,7 +191,9 @@ Dokumentasi API yang digunakan pada Capstone Project C23-PR584
         "category": "Tomato",
         "imageUrl": "<imageUrl>",
         "result": {
-            "labels": "<labels>"
+            "isDetected": "true/false",
+            "labels": "<labels>",
+            "accuracy": "<accuracy>",
         }
     }
   }
